@@ -1,3 +1,4 @@
+import { getJson } from '../api/client.js';
 import { DataCapability } from './DataCapability.js';
 
 type Team = {
@@ -10,6 +11,7 @@ type Team = {
 export default function Teams() {
   return (
     <DataCapability<Team>
+      getJson={getJson}
       title="Teams"
       description="Manage teams and members."
       endpoint="/api/teams"

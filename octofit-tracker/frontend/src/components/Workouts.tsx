@@ -1,3 +1,4 @@
+import { getJson } from '../api/client.js';
 import { DataCapability } from './DataCapability.js';
 
 type WorkoutSuggestion = {
@@ -13,6 +14,7 @@ const userEmail = 'mona@example.com';
 export default function Workouts() {
   return (
     <DataCapability<WorkoutSuggestion>
+      getJson={getJson}
       title="Workout suggestions"
       description="Recommend workouts from activity patterns."
       endpoint={`/api/workouts/suggestions/${encodeURIComponent(userEmail)}`}

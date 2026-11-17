@@ -1,3 +1,4 @@
+import { getJson } from '../api/client.js';
 import { DataCapability } from './DataCapability.js';
 
 type LeaderboardEntry = {
@@ -9,6 +10,7 @@ type LeaderboardEntry = {
 export default function Leaderboard() {
   return (
     <DataCapability<LeaderboardEntry>
+      getJson={getJson}
       title="Leaderboard"
       description="Compare team point totals."
       endpoint="/api/leaderboard"

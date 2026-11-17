@@ -1,3 +1,4 @@
+import { getJson } from '../api/client.js';
 import { DataCapability } from './DataCapability.js';
 
 type Activity = {
@@ -10,6 +11,7 @@ type Activity = {
 export default function Activities() {
   return (
     <DataCapability<Activity>
+      getJson={getJson}
       title="Activities"
       description="Track student activity minutes and points."
       endpoint="/api/activities"

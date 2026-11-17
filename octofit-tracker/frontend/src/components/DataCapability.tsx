@@ -1,5 +1,4 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { getJson } from '../api/client.js';
 
 type State<T> =
   | { status: 'loading' }
@@ -7,6 +6,7 @@ type State<T> =
   | { status: 'loaded'; items: T[] };
 
 type Props<T> = {
+  getJson: <Response>(path: string) => Promise<Response>;
   title: string;
   description: string;
   endpoint: string;
@@ -16,6 +16,7 @@ type Props<T> = {
 };
 
 export function DataCapability<T>({
+  getJson,
   title,
   description,
   endpoint,
@@ -44,7 +45,7 @@ export function DataCapability<T>({
     return () => {
       active = false;
     };
-  }, [collection, endpoint, title]);
+  }, [collection, endpoint, getJson, title]);
 
   return (
     <section className="card h-100">
