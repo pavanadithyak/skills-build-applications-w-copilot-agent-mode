@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { getJson } from '../api/client.js';
 import { DataCapability } from './DataCapability.js';
 
@@ -8,12 +9,16 @@ type LeaderboardEntry = {
 };
 
 export default function Leaderboard() {
+  const loadLeaderboard = useCallback(
+    () => getJson<Record<string, LeaderboardEntry[]>>('/api/leaderboard'),
+    [],
+  );
+
   return (
     <DataCapability<LeaderboardEntry>
-      getJson={getJson}
+      loadData={loadLeaderboard}
       title="Leaderboard"
       description="Compare team point totals."
-      endpoint="/api/leaderboard"
       collection="leaderboard"
       emptyMessage="No leaderboard rankings yet."
       renderItems={(entries) => (

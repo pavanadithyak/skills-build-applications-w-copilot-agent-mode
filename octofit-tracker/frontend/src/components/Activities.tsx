@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { getJson } from '../api/client.js';
 import { DataCapability } from './DataCapability.js';
 
@@ -9,12 +10,16 @@ type Activity = {
 };
 
 export default function Activities() {
+  const loadActivities = useCallback(
+    () => getJson<Record<string, Activity[]>>('/api/activities'),
+    [],
+  );
+
   return (
     <DataCapability<Activity>
-      getJson={getJson}
+      loadData={loadActivities}
       title="Activities"
       description="Track student activity minutes and points."
-      endpoint="/api/activities"
       collection="activities"
       emptyMessage="No activities yet."
       renderItems={(activities) => (

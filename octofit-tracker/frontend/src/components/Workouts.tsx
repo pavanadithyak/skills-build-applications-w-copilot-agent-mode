@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { getJson } from '../api/client.js';
 import { DataCapability } from './DataCapability.js';
 
@@ -12,12 +13,16 @@ type WorkoutSuggestion = {
 const userEmail = 'mona@example.com';
 
 export default function Workouts() {
+  const loadSuggestions = useCallback(
+    () => getJson<Record<string, WorkoutSuggestion[]>>(`/api/workouts/suggestions/${encodeURIComponent(userEmail)}`),
+    [],
+  );
+
   return (
     <DataCapability<WorkoutSuggestion>
-      getJson={getJson}
+      loadData={loadSuggestions}
       title="Workout suggestions"
       description="Recommend workouts from activity patterns."
-      endpoint={`/api/workouts/suggestions/${encodeURIComponent(userEmail)}`}
       collection="suggestions"
       emptyMessage="No workout suggestions yet."
       renderItems={(suggestions) => (

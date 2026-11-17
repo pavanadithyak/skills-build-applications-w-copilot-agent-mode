@@ -6,20 +6,18 @@ type State<T> =
   | { status: 'loaded'; items: T[] };
 
 type Props<T> = {
-  getJson: <Response>(path: string) => Promise<Response>;
+  loadData: () => Promise<Record<string, T[]>>;
   title: string;
   description: string;
-  endpoint: string;
   collection: string;
   emptyMessage: string;
   renderItems: (items: T[]) => ReactNode;
 };
 
 export function DataCapability<T>({
-  getJson,
+  loadData,
   title,
   description,
-  endpoint,
   collection,
   emptyMessage,
   renderItems,
@@ -30,7 +28,7 @@ export function DataCapability<T>({
     let active = true;
     setState({ status: 'loading' });
 
-    getJson<Record<string, T[]>>(endpoint)
+    loadData()
       .then((response) => {
         const items = response[collection];
         if (!Array.isArray(items)) throw new Error('Unexpected API response.');
@@ -45,7 +43,7 @@ export function DataCapability<T>({
     return () => {
       active = false;
     };
-  }, [collection, endpoint, getJson, title]);
+  }, [collection, loadData, title]);
 
   return (
     <section className="card h-100">

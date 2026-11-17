@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { getJson } from '../api/client.js';
 import { DataCapability } from './DataCapability.js';
 
@@ -9,12 +10,16 @@ type Team = {
 };
 
 export default function Teams() {
+  const loadTeams = useCallback(
+    () => getJson<Record<string, Team[]>>('/api/teams'),
+    [],
+  );
+
   return (
     <DataCapability<Team>
-      getJson={getJson}
+      loadData={loadTeams}
       title="Teams"
       description="Manage teams and members."
-      endpoint="/api/teams"
       collection="teams"
       emptyMessage="No teams yet."
       renderItems={(teams) => (
